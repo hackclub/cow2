@@ -1,0 +1,17 @@
+{
+  "name": "cow",
+  "version": "0.1.0",
+  "description": "Hack Club Cow",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "tsnd src/index.ts",
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "typescript": "^4.2.2"
+  },
+  "dependencies": {
+    "@slack/bolt": "^3.2.0",
+    "superagent": "^6.1.0"
+  }
+}
