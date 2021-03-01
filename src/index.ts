@@ -210,7 +210,7 @@ async function start() {
   mongoose.connect(process.env.MONGODB_URI, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false})
 
   // Create or update the cow doc
-  Cow.updateOne({}, {}, { upsert: true })
+  await Cow.ensureCreated()
 
   await bot.start(parseInt(process.env.PORT) || 5000)
   console.log('⚡️ Bot started')
