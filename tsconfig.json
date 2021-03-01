@@ -4,6 +4,7 @@
     "esModuleInterop": true,
     "outDir": "./dist",
     "baseUrl": "src",
+    "target": "ES5",
     "moduleResolution": "node",
     "types": []
   },
