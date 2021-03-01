@@ -5,7 +5,8 @@
   "main": "src/index.ts",
   "scripts": {
     "dev": "tsnd src/index.ts",
-    "build": "tsc --project tsconfig.json"
+    "build": "tsc --project tsconfig.json",
+    "start": "node dist/index.js"
   },
   "devDependencies": {
     "@types/mongoose": "^5.10.3",
@@ -16,6 +17,7 @@
   "dependencies": {
     "@slack/bolt": "^3.2.0",
     "axios": "^0.21.1",
+    "bad-words": "^3.0.4",
     "mongoose": "^5.11.18",
     "node-cron": "^2.0.3"
   }

@@ -19,7 +19,7 @@ interface GPT3Params {
 }
 
 async function getGPT3Completion(params: GPT3Params, engine: ('curie-instruct-beta' | 'curie' | 'davinci' | 'davinci-instruct-beta') = 'curie') {
-  console.log(params)
+  // console.log(params)
   const { data } = await axios.post(`https://api.openai.com/v1/engines/${engine}/completions`, params, {
     headers: {
       Authorization: `Bearer ${apiKey}`
