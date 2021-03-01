@@ -57,7 +57,7 @@ const responses = {
   pyramidText: [
     "I may or may not be running a cow pyramid scheme",
     "Observe the army",
-    "It's just the parade :cow2:",
+    "It's the cow parade :cow2:",
     "As you can see there are a lot of :cow2:",
     "run"
   ]
