@@ -1,8 +1,11 @@
 {
   "compilerOptions": {
     "experimentalDecorators": true,
+    // "esModuleInterop": true,
     "outDir": "./dist",
-    "moduleResolution": "node"
+    "baseUrl": "src",
+    "moduleResolution": "node",
+    "types": []
   },
   "include": [
     "./src/**/*.ts"

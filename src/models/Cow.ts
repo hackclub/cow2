@@ -1,18 +1,27 @@
 import { Schema, model, Model, Document } from 'mongoose'
 
-class ICow extends Document {
-  currentChannel: string
+export interface ICow extends Document {
+  currentChannel: string,
+  wordsTotal: number,
+  wordsToday: number
 }
 
-const cowSchema = new Schema({
-  currentChannel: String
+interface ICowModel extends Model<ICow> {
+  incrementWordCount(add: number): Promise<ICow>
+}
+
+const cowSchema: Schema<ICow, ICowModel> = new Schema({
+  currentChannel: String,
+  wordsTotal: Number,
+  wordsToday: Number
 })
 
-// cowSchema.statics.getOrCreate = async function getOrCreate() {
-//   const cow = await this.findOne({})
-//   if (!cow) return await this.create({ currentChannel: process.env.COW_HOME_CHANNEL })
-// }
+cowSchema.statics.incrementWordCount = async function (add: number) {
+  const cow = await this.findOne()
+  cow.wordsTotal = (cow.wordsTotal || 0) + add
+  cow.wordsToday = (cow.wordsToday || 0) + add
+  await cow.save()
+  return cow
+}
 
-const Cow: Model<ICow> = model('Cow', cowSchema)
-
-export default Cow
+export default model<ICow, ICowModel>('Cow', cowSchema)
