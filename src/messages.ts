@@ -1,4 +1,5 @@
 import ProfanityFilter from 'bad-words' 
+import getGenericResponse from './genericMessages'
 
 const filter = new ProfanityFilter()
 
@@ -8,7 +9,13 @@ export function parseUserMessage(msg: string): string {
 }
 
 export function parseChatResponse(msg: string): string {
-  return filter.clean(msg.trim())
+  const fallback = getGenericResponse('fallbackResponse')
+  try {
+    return filter.clean(msg.trim()) || fallback
+  } catch (err) {
+    console.error(err)
+    return fallback
+  }
 }
 
 export function isUserMessageOffTopic(msg: string): boolean {

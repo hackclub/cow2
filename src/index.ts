@@ -100,6 +100,7 @@ async function cowRespond(thread: IThread, client, userMsg: string, userId: stri
       text: cowResponse
     })
 
+    // TODO Fix race condition with saving chat log
     thread.chatLog = chatLog
     if (!thread.participants) thread.participants = []
     if (!thread.participants.includes(userId)) thread.participants.push(userId)
@@ -176,22 +177,25 @@ bot.event('reaction_added', async ({ event, client }) => {
   })
 })
 
-async function isAllowed(channelId): Promise<boolean> {
+async function cowAllowed(channelId): Promise<boolean> {
   const channel = await Channel.findOne({ channelId })
   if (channel && channel.cowAllowed) return true
 }
 
 bot.message(/(^| )moo+($| )/, async ({ say, message }) => {
-  if (!await isAllowed(message.channel)) return
+  if (!await cowAllowed(message.channel) || (message as GenericMessageEvent).thread_ts) return
   say(getGenericResponse('mooResponse'))
 })
 
 bot.message(/(^| )cow pyramid$/, async ({ say, message }) => {
-  // if (!await isAllowed(message.channel)) return
-
+  if (/*!await cowAllowed(message.channel) || */(message as GenericMessageEvent).thread_ts) return
   await say(cowPyramid)
   say(getGenericResponse('pyramidText'))
 })
+
+// bot.message(/^cow introduce yourself$/, async ({ say }) => {
+//   await say(":wave: Hello everyone! I'm the Hack Club Cow 2.0. It's nice to meet you!")
+// })
 
 async function dailyReset() {
   // Send cow home and reset daily count

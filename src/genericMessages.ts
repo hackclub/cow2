@@ -60,6 +60,14 @@ const responses = {
     "It's the cow parade :cow2:",
     "As you can see there are a lot of :cow2:",
     "run"
+  ],
+  fallbackResponse: [
+    "Sorry I just had a brain-freeze",
+    "uhhh",
+    "MOOOOOOOOOOOo",
+    "Sorry, I gotta go!",
+    "Um sorry can't talk any more",
+    "Lost my train of thought, sorry"
   ]
 }
 

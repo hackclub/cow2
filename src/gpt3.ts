@@ -39,6 +39,23 @@ Cow: Cows have feelings too :sad-rat:`
 const preMessage = `\nYou: `
 const preResponse = `\nCow:`
 
+function fixConversationLog(log: string): string {
+  // Clean duplicate responses to prevent the cow from getting stuck in a loop
+  const [description, conversation] = log.split('\n\n')
+  let lines = conversation.split('\n') // Use a set to eliminate duplicates
+  const filteredLines = [...lines]
+  const seen = []
+  for (const [i, l] of lines.entries()) {
+    if (seen.indexOf(l) < 0) {
+      seen.push(l)
+    } else {
+      // Only remove if this is a bot response. Duplicate user messages are assumed to be intentional.
+      if (l.startsWith(preResponse)) filteredLines.splice(i - 1, i) // Remove message and response.
+    }
+  }
+  return description + '\n\n' + filteredLines.join('\n')
+}
+
 export async function getChatResponse(message: string, chatLog?: string, ): Promise<[response: string, log: string]> {
 
   const prompt = (chatLog || initialChatLog) + `${preMessage}${message}${preResponse}`
@@ -55,6 +72,7 @@ export async function getChatResponse(message: string, chatLog?: string, ): Prom
   }
 
   const response = parseChatResponse(await getGPT3Completion(completionParams, 'curie-instruct-beta'))
+  const newLog = fixConversationLog(prompt + ' ' + response) // Full conversation history
 
-  return [response, prompt + ' ' + response] // Return response and full chat history
+  return [response, newLog]
 }
