@@ -40,7 +40,9 @@ async function summonCow(channelId: string, client): Promise<boolean> {
     channel: cow.currentChannel
   }).sort({ startedAt: 'desc' })
 
-  if (lastThread && (new Date().getTime() - lastThread.startedAt.getTime()) < (1000 * 60)) client.chat.postMessage({
+  const lastThreadWasRecent = lastThread && (new Date().getTime() - lastThread.startedAt.getTime()) < (1000 * 150)
+
+  if (cow.currentChannel === process.env.COW_HOME_CHANNEL || lastThreadWasRecent) client.chat.postMessage({
     channel: cow.currentChannel,
     text: cow.currentChannel === process.env.COW_HOME_CHANNEL ? getGenericResponse('summonedAwayFromHome') + ` <#${channelId}>` : getGenericResponse('summonedAway') + ` <#${channelId}>. MOOOO! :wave:`
   })
@@ -119,7 +121,7 @@ async function cowRespond(thread: IThread, client, userMsg: string, userId: stri
 bot.event('app_mention', async ({ event, client }) => {
   // Start a new thread
 
-  if (!await summonCow(event.channel, client)) return // Cow not summoned
+  if (event.thread_ts || !await summonCow(event.channel, client)) return // Cow not summoned or this is a thread
 
   const thread = new Thread({
     channel: event.channel,
