@@ -14,7 +14,7 @@ interface ICowModel extends Model<ICow> {
 const cowSchema: Schema<ICow, ICowModel> = new Schema({
   currentChannel: String,
   wordsTotal: Number,
-  wordsToday: Number
+  wordsToday: Number,
 })
 
 cowSchema.statics.incrementWordCount = async function (add: number) {

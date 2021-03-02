@@ -25,6 +25,13 @@ export async function allowCowCommand({ ack, command }: SlackCommandMiddlewareAr
 }
 
 export async function blockCowCommand({ ack, command }: SlackCommandMiddlewareArgs) {
+  if (command.channel_id === process.env.COW_HOME_CHANNEL) { // private starts with G
+    ack({
+      text: "I'm not going to leave my own home, silly! :cow:",
+    })
+    return
+  }
+
   await Channel.updateOne(
     { channelId: command.channel_id },
     { $set: { 

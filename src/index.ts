@@ -36,7 +36,11 @@ async function summonCow(channelId: string, client): Promise<boolean> {
 
   if (cow.currentChannel === channelId) return true // Same channel
 
-  if (cow.currentChannel) client.chat.postMessage({
+  const lastThread = await Thread.findOne({
+    channel: cow.currentChannel
+  }).sort({ startedAt: 'desc' })
+
+  if (lastThread && (new Date().getTime() - lastThread.startedAt.getTime()) < (1000 * 60)) client.chat.postMessage({
     channel: cow.currentChannel,
     text: cow.currentChannel === process.env.COW_HOME_CHANNEL ? getGenericResponse('summonedAwayFromHome') + ` <#${channelId}>` : getGenericResponse('summonedAway') + ` <#${channelId}>. MOOOO! :wave:`
   })
@@ -57,6 +61,8 @@ async function summonCow(channelId: string, client): Promise<boolean> {
 
 async function cowRespond(thread: IThread, client, userMsg: string, userId: string) {
   try {
+    console.log(`Responding to message "${userMsg}" from ${userId} in ${thread.channel}-${thread.thread_ts}`)
+
     const msg = parseUserMessage(userMsg)
     if (!msg) return
 
@@ -182,13 +188,13 @@ async function cowAllowed(channelId): Promise<boolean> {
   if (channel && channel.cowAllowed) return true
 }
 
-bot.message(/(^| )moo+($| )/, async ({ say, message }) => {
+bot.message(/(^| )moo+$/, async ({ say, message }) => {
   if (!await cowAllowed(message.channel) || (message as GenericMessageEvent).thread_ts) return
   say(getGenericResponse('mooResponse'))
 })
 
 bot.message(/(^| )cow pyramid$/, async ({ say, message }) => {
-  if (/*!await cowAllowed(message.channel) || */(message as GenericMessageEvent).thread_ts) return
+  if (!await cowAllowed(message.channel) || (message as GenericMessageEvent).thread_ts) return
   await say(cowPyramid)
   say(getGenericResponse('pyramidText'))
 })

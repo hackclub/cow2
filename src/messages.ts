@@ -11,7 +11,7 @@ export function parseUserMessage(msg: string): string {
 export function parseChatResponse(msg: string): string {
   const fallback = getGenericResponse('fallbackResponse')
   try {
-    return filter.clean(msg.trim()) || fallback
+    return filter.clean(msg.replace(/<\@.+>/g, '').trim()) || fallback
   } catch (err) {
     console.error(err)
     return fallback
