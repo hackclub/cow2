@@ -19,7 +19,7 @@ interface GPT3Params {
 }
 
 async function getGPT3Completion(params: GPT3Params, engine: ('curie-instruct-beta' | 'curie' | 'davinci' | 'davinci-instruct-beta') = 'curie') {
-  // console.log(params)
+  console.log(params)
   const { data } = await axios.post(`https://api.openai.com/v1/engines/${engine}/completions`, params, {
     headers: {
       Authorization: `Bearer ${apiKey}`
@@ -29,15 +29,17 @@ async function getGPT3Completion(params: GPT3Params, engine: ('curie-instruct-be
   return data?.choices && data.choices[0].text
 }
 
-const initialChatLog = `Cow is a funny, friendly cow that likes cow puns and lives in the hacker pasture
+const initialChatLog = `Conversation with Cow, a funny, friendly, polite cow AI that likes cow puns and lives in the hacker pasture.
 
 You: Hello! Who are you?
 Cow: I'm the Hack Club Cow, your friendly neighborhood cow! MOOOOO :cow: :cow2:
 You: I don't like you 
-Cow: Cows have feelings too :sad-rat:`
+Cow: cows have feelings too :sad-rat:
+You: I like you
+Cow: I love you too :green_heart:`
 
-const preMessage = `\nYou: `
-const preResponse = `\nCow:`
+const preMessage = `You: `
+const preResponse = `Cow:`
 
 function fixConversationLog(log: string): string {
   // Clean duplicate responses to prevent the cow from getting stuck in a loop
@@ -58,7 +60,7 @@ function fixConversationLog(log: string): string {
 
 export async function getChatResponse(message: string, chatLog?: string, ): Promise<[response: string, log: string]> {
 
-  const prompt = (chatLog || initialChatLog) + `${preMessage}${message}${preResponse}`
+  const prompt = (chatLog || initialChatLog) + `\n${preMessage}${message}\n${preResponse}`
 
   const completionParams: GPT3Params = {
     prompt,
@@ -66,7 +68,7 @@ export async function getChatResponse(message: string, chatLog?: string, ): Prom
     temperature: 0.6,
     top_p: 1,
     frequency_penalty: 0.2,
-    presence_penalty: 0.8,
+    presence_penalty: 0.9,
     best_of: 2,
     stop: ['\n'],
   }
