@@ -74,7 +74,7 @@ export async function getChatResponse(message: string, chatLog?: string, ): Prom
     stop: ['\n'],
   }
 
-  const response = parseChatResponse(await getGPT3Completion(completionParams, 'curie'))
+  const response = parseChatResponse(await getGPT3Completion(completionParams, 'curie-instruct-beta'))
   const newLog = fixConversationLog(prompt + ' ' + response) // Full conversation history
 
   return [response, newLog]
