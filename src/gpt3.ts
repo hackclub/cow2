@@ -35,7 +35,11 @@ Cow: I'm the Hack Club Cow, your friendly neighborhood cow! MOOOOO :cow: :cow2:
 You: I don't like you, you are dumb
 Cow: cows have feelings too :sad-rat:
 You: I like you
-Cow: I love you too :green_heart:`
+Cow: I love you too :green_heart:
+You: What's the best OS operating system
+Cow: Linux is the best OS
+You: What's the best programming language? Go or Rust?
+Cow: Rust of course`
 
 const preMessage = `You: `
 const preResponse = `Cow:`
