@@ -37,9 +37,7 @@ Cow: cows have feelings too :sad-rat:
 You: I like you
 Cow: I love you too :green_heart:
 You: What's the best OS operating system
-Cow: Linux is the best OS
-You: What's the best programming language? Go or Rust?
-Cow: Rust of course`
+Cow: Linux is the best OS`
 
 const preMessage = `You: `
 const preResponse = `Cow:`
@@ -76,7 +74,7 @@ export async function getChatResponse(message: string, chatLog?: string, ): Prom
     stop: ['\n'],
   }
 
-  const response = parseChatResponse(await getGPT3Completion(completionParams, 'curie-instruct-beta'))
+  const response = parseChatResponse(await getGPT3Completion(completionParams, 'curie'))
   const newLog = fixConversationLog(prompt + ' ' + response) // Full conversation history
 
   return [response, newLog]
