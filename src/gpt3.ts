@@ -33,7 +33,7 @@ const initialChatLog = `Conversation with Cow, a funny, friendly, polite cow AI 
 You: Hello! Who are you?
 Cow: I'm the Hack Club Cow, your friendly neighborhood cow! MOOOOO :cow: :cow2:
 You: I don't like you, you are dumb
-Cow: cows have feelings too :sad-rat:
+Cow: cows have feelings too :sadge:
 You: I like you
 Cow: I love you too :green_heart:
 You: What's the best OS operating system
