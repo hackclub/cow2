@@ -18,7 +18,9 @@ interface GPT3Params {
   best_of?: number // Returns best completion of best_of completions
 }
 
-async function getGPT3Completion(params: GPT3Params, engine: ('curie-instruct-beta' | 'curie' | 'davinci' | 'davinci-instruct-beta') = 'curie') {
+type GPT3Engine = 'curie-instruct-beta' | 'curie' | 'davinci' | 'davinci-instruct-beta'
+
+async function getGPT3Completion(params: GPT3Params, engine: GPT3Engine = 'curie') {
   const { data } = await axios.post(`https://api.openai.com/v1/engines/${engine}/completions`, params, {
     headers: {
       Authorization: `Bearer ${apiKey}`
@@ -74,7 +76,7 @@ export async function getChatResponse(message: string, chatLog?: string, ): Prom
     stop: ['\n'],
   }
 
-  const response = parseChatResponse(await getGPT3Completion(completionParams, 'curie-instruct-beta'))
+  const response = parseChatResponse(await getGPT3Completion(completionParams, process.env.GPT3_ENGINE as GPT3Engine || 'curie-instruct-beta' ))
   const newLog = fixConversationLog(prompt + ' ' + response) // Full conversation history
 
   return [response, newLog]
