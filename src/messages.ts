@@ -19,5 +19,6 @@ export function parseChatResponse(msg: string): string {
 }
 
 export function isUserMessageOffTopic(msg: string): boolean {
-  if (filter.isProfane(msg)) return true
+  // if (filter.isProfane(msg)) return true
+  return false
 }
