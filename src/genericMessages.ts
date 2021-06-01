@@ -68,6 +68,12 @@ const responses = {
     "Sorry, I gotta go!",
     "Um sorry can't talk any more",
     "Lost my train of thought, sorry"
+  ],
+  goatRefusal: [
+    "I don't want to talk with the goat.",
+    "I would really rather not talk with the goat, that goat is much too talkative.",
+    "Goat? What's that?",
+    "No. I refuse. Goat is mean. I won't talk with them."
   ]
 }
 

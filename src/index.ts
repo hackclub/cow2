@@ -10,6 +10,7 @@ import Channel from './models/Channel'
 import getGenericResponse, { pyramid as cowPyramid } from './genericMessages'
 import * as cron from 'node-cron'
 import { blockCowCommand, allowCowCommand, cowInfoCommand } from './commands'
+import getResponse from './genericMessages'
 
 const maxDailyWords = process.env.MAX_DAILY_WORDS || 0
 const maxWeeklyWordsPerUser = process.env.MAX_WORDS_USER_WEEKLY || 0
@@ -122,6 +123,16 @@ bot.event('app_mention', async ({ event, client }) => {
   // Start a new thread
 
   if (event.thread_ts || !await summonCow(event.channel, client)) return // Cow not summoned or this is a thread
+
+  // Temporary fix to prevent long chains of messages with the goat bot
+  if (event.text.indexOf('<@U01U06UT4CD>') >= 0) {
+    await client.chat.postMessage({
+      channel: event.channel,
+      thread_ts: event.ts,
+      text: getResponse('goatRefusal')
+    })
+    return
+  }
 
   const thread = new Thread({
     channel: event.channel,
