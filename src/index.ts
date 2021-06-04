@@ -125,6 +125,7 @@ bot.event('app_mention', async ({ event, client }) => {
   if (event.thread_ts || !await summonCow(event.channel, client)) return // Cow not summoned or this is a thread
 
   // Temporary fix to prevent long chains of messages with the goat bot
+  // Remove this is you're hosting cow for your own slack.
   if (event.text.indexOf('<@U01U06UT4CD>') >= 0) {
     await client.chat.postMessage({
       channel: event.channel,
