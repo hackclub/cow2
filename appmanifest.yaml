@@ -1,0 +1,48 @@
+_metadata:
+  major_version: 1
+  minor_version: 1
+display_information:
+  name: cow
+  description: I am a cow. Type /cow for more info.
+  background_color: "#8f6140"
+features:
+  bot_user:
+    display_name: cow
+    always_online: true
+  slash_commands:
+    - command: /cow
+      url: https://URL.com/slack/events
+      description: Learn about the Hack Club Cow 2.0
+      should_escape: false
+    - command: /allow-cow
+      url: https://URL.com/slack/events
+      description: Allow the cow to be summoned to this channel
+      should_escape: false
+    - command: /leave-cow
+      url: https://URL.com/slack/events
+      description: Block the cow from being summoned to this channel
+      should_escape: false
+oauth_config:
+  scopes:
+    bot:
+      - app_mentions:read
+      - channels:history
+      - channels:read
+      - chat:write
+      - commands
+      - emoji:read
+      - reactions:write
+      - groups:history
+      - reactions:read
+settings:
+  event_subscriptions:
+    request_url: https://URL.com/slack/events
+    bot_events:
+      - app_mention
+      - message.channels
+      - message.groups
+      - reaction_added
+  org_deploy_enabled: false
+  socket_mode_enabled: false
+  is_hosted: false
+  token_rotation_enabled: false
