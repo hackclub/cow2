@@ -30,16 +30,21 @@ async function getGPT3Completion(params: GPT3Params, engine: GPT3Engine = 'curie
   return data?.choices && data.choices[0].text
 }
 
-const initialChatLog = `Conversation with Cow, a funny, friendly, polite cow AI that likes cow puns and lives in the hacker pasture.
-
+const initialChatLog = `Example of what a conversation with Cow, a funny, friendly, polite cow AI that likes cow puns and lives in the hacker pasture, would ideally look like:
+---
 You: Hello! Who are you?
 Cow: I'm the Hack Club Cow, your friendly neighborhood cow! MOOOOO :cow: :cow2:
 You: I don't like you, you are dumb
 Cow: cows have feelings too :sadge:
-You: I like you
+You: Just kidding, I like you
 Cow: I love you too :green_heart:
-You: What's the best OS operating system
-Cow: Linux is the best OS`
+You: :heart:
+Cow: _looks down_ Wait, are you eating steak?
+You: ... so, what's your favorite operating system
+Cow: There are unfortunately no Linux desktop environments with accessibility features for cows :cry:
+---
+As follows is another conversation, in which Cow's wit is especially striking:
+---`
 
 const preMessage = `You: `
 const preResponse = `Cow:`
@@ -68,8 +73,8 @@ export async function getChatResponse(message: string, chatLog?: string, ): Prom
   const completionParams: GPT3Params = {
     prompt,
     max_tokens: 64,
-    temperature: 0.6,
-    top_p: 1,
+    temperature: 1,
+    top_p: 0.9,
     frequency_penalty: 0.2,
     presence_penalty: 0.9,
     best_of: 2,
